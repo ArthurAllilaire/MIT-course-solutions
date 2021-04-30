@@ -27,10 +27,11 @@ def load_cows(filename):
     #Implement an empty dictionary
     cowDict={}
     #Create a file object that is read only of the data - using with as it automatically closes the file once finished
-    with open("px1_cow_data.txt", "r") as cowList:
+    with open(filename, "r") as cowList:
         for line in cowList:
-            cow = line.split(", ")
-            cowDict[cow[0]]=cowDict[cow[1]]
+            #strip removes ending "\n"
+            cow = line.strip().split(",")
+            cowDict[cow[0]]=int(cow[1])
     return cowDict
 
 # Problem 2
@@ -160,15 +161,25 @@ def compare_cow_transport_algorithms():
     Returns:
     Does not return anything.
     """
-    # TODO: Your code here
-    pass
+    cowDict = load_cows("ps1_cow_data.txt")
+    # greedy_cow_transport test
+    start = time.time()
+    ## code to be timed
+    spaceshipGreedy = greedy_cow_transport(cowDict, 10)
+    end = time.time()
+    print(end - start)
+    print(spaceshipGreedy, len(spaceshipGreedy))
+
+    #brute_force_cow_transport test
+    start = time.time()
+    ## code to be timed
+    spaceshipBrute = brute_force_cow_transport(cowDict)
+    end = time.time()
+    print(end - start)
+    print(spaceshipBrute, len(spaceshipBrute))
 
 #TESTS
-cowDict={"Maggie": 3, "dave": 7, "tim": 10, "liv": 6, "jim": 2}
+# cowDict={"Maggie": 3, "dave": 7, "tim": 10, "liv": 6, "jim": 2}
+compare_cow_transport_algorithms()
 
-# greedy_cow_transport test
-spaceship = greedy_cow_transport(cowDict, 10)
-print(spaceship)
 
-#brute_force_cow_transport test
-print(brute_force_cow_transport(cowDict))
